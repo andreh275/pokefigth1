@@ -17,7 +17,6 @@
   />
 </div>
 
-        <!-- Selección de estadísticas - Jugador 1 -->
         <div>
           <label>Seleccionar Estadísticas (Jugador 1):</label>
           <q-btn-dropdown color="primary" :label="getDropdownLabel(statsSelection1, 'Jugador 1')">
@@ -37,7 +36,6 @@
           </q-btn-dropdown>
         </div>
 
-        <!-- Selección de estadísticas - Jugador 2 -->
         <div>
           <label>Seleccionar Estadísticas (Jugador 2):</label>
           <q-btn-dropdown color="secondary" :label="getDropdownLabel(statsSelection2, 'Jugador 2')">
@@ -57,16 +55,14 @@
           </q-btn-dropdown>
         </div>
 
-        <!-- Botón para confirmar rondas y comenzar la batalla -->
         <button @click="startBattle">Confirmar Rondas</button>
       </div>
     </div>
 
-    <!-- Campo de batalla -->
     <div v-if="battleStarted" class="battle-field">
       <h1>Batalla Pokémon - Ronda {{ currentRound + 1 }} de {{ rounds }}</h1>
       <div class="battle-container">
-        <!-- Tarjeta del Pokémon del Jugador 1 -->
+
         <div
           class="pokemon-card"
           :style="{ backgroundColor: getTypeColor(player1Pokemon.types[0].type.name) }"
@@ -78,7 +74,6 @@
 
         <div class="versus">VS</div>
 
-        <!-- Tarjeta del Pokémon del Jugador 2 -->
         <div
           class="pokemon-card"
           :style="{ backgroundColor: getTypeColor(player2Pokemon.types[0].type.name) }"
@@ -143,7 +138,7 @@ export default {
 
     const fetchAllPokemons = async () => {
       try {
-        // Limitar a los primeros 151 Pokémon para mejorar el rendimiento
+
         const promises = Array.from({ length: 151 }, (_, i) =>
           axios.get(`https://pokeapi.co/api/v2/pokemon/${i + 1}`)
         );
@@ -200,49 +195,44 @@ export default {
       }
     };
     const nextRound = () => {
-  // Comprobar si se ha determinado un ganador
+
   if (winner.value === null) {
-    determineWinner(); // Asegurarse de que tenemos un ganador para la ronda actual
+    determineWinner(); 
   }
 
-  // Incrementar la ronda actual
   currentRound.value++;
 
-  // Si hay más rondas por jugar
   if (currentRound.value < rounds.value) {
-    // Actualizar Pokémon para la siguiente ronda
+
     if (winner.value && winner.value !== 'Empate') {
-      // El Pokémon que ganó se queda, y el otro se reemplaza
+
       if (winner.value === player1Pokemon.value) {
-        player2Pokemons.value.shift(); // Sacar al Pokémon perdedor de Jugador 2
+        player2Pokemons.value.shift();
       } else {
-        player1Pokemons.value.shift(); // Sacar al Pokémon perdedor de Jugador 1
+        player1Pokemons.value.shift(); 
       }
     } else {
-      // En caso de empate, simplemente se puede mantener ambos Pokémon
+
       player1Pokemon.value = player1Pokemons.value[0] || null;
       player2Pokemon.value = player2Pokemons.value[0] || null;
     }
 
-    // Restablecer el ganador para la próxima ronda
     winner.value = null;
 
-    // Actualizar los Pokémon para la próxima ronda
     player1Pokemon.value = player1Pokemons.value[0] || null;
     player2Pokemon.value = player2Pokemons.value[0] || null;
 
-    // Determinar el ganador de la nueva ronda
     if (player1Pokemon.value && player2Pokemon.value) {
       determineWinner();
     }
   } else {
-    // Si no hay más rondas, mostrar el resultado final
+
     showFinalResults();
   }
 };
 
 const showFinalResults = () => {
-  // Aquí puedes agregar lógica para mostrar los resultados finales
+
   alert(`¡El Torneo ha terminado! Jugador 1 victorias: ${player1Wins.value}, Jugador 2 victorias: ${player2Wins.value}`);
 };
 
@@ -278,7 +268,7 @@ const showFinalResults = () => {
     ghost: '#705898',
     dragon: '#7038F8',
   };
-  return typeColors[type] || '#FFFFFF'; // Color por defecto
+  return typeColors[type] || '#FFFFFF'; 
 };
 
     const capitalize = (string) => {
@@ -486,7 +476,7 @@ button:hover {
   text-align: center;
   padding: 20px;
   width: 250px;
-  color: #fff; /* Texto en blanco para mejor legibilidad */
+  color: #fff;
   position: relative;
 }
 
@@ -498,7 +488,7 @@ button:hover {
   width: 100%;
   height: 100%;
   border-radius: 15px;
-  background: rgba(0, 0, 0, 0.2); /* Superposición oscura para resaltar el texto */
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .pokemon-card img {
@@ -545,12 +535,10 @@ button:hover {
   background-color: #5e7a70;
 }
 
-/* Estilos para las listas seleccionadas */
 .selected {
   background-color: #d3d3d3;
 }
 
-/* Asegurar que el texto sobre fondos coloridos sea legible */
 .pokemon-card p,
 .pokemon-card .pokemon-name {
   color: #fff;
