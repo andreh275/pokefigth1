@@ -15,7 +15,7 @@
               max="10"
             />
           </div>
-  
+
           <div>
             <label>Seleccionar Estadística 1:</label>
             <q-btn-dropdown color="primary" :label="getDropdownLabel(statsSelection1, 'Jugador 1')">
